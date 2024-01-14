@@ -45,7 +45,7 @@ function DataTable({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-
+    onSortingChange: setSorting,  
     state: {
       sorting,
       columnFilters,
