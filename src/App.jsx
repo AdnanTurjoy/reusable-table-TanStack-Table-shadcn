@@ -250,7 +250,7 @@ import { data1, data2 } from './components/FakeData'
           pageSize:80,
         }}
          options={{
-          sort:true,
+          sort:false,
           selection: false, // not work yet properly
           pagination:true,
          }}
