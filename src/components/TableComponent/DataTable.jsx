@@ -61,10 +61,10 @@ function DataTable({
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,  
-    manualPagination: true,
+    // manualPagination: true,
     onPaginationChange: setPagination,
     onGlobalFilterChange: setFiltering,
-    enableRowSelection:true,
+    // enableRowSelection: row => row.original.age > 18,
     state: {
       sorting,
       columnFilters,
@@ -74,9 +74,10 @@ function DataTable({
     },
   });
 
-  console.log(table);
 
-  getSelectedRow(Object.keys(rowSelection));
+// console.log(table.getSelectedRowModel()?.rows?.map((r)=>r.original)) //get full client-side selected rows
+
+  getSelectedRow(table.getSelectedRowModel()?.rows?.map((r)=>r.original));
 
   return (
     <div>
