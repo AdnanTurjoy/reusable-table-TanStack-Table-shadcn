@@ -172,19 +172,6 @@ import { data1, data2 } from './components/FakeData'
             accessorFn: row => row.lastName,
             id: 'lastName',
             cell: info => info.getValue(),
-            header: ({ column }) => {
-              return (
-                <Button
-                  variant="ghost"
-                  onClick={() => {
-                    column.toggleSorting(column.getIsSorted() === "asc");
-                  }}
-                >
-                  Last Name
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-              );
-            },
             footer: props => props.column.id,
           },
         ],
@@ -249,8 +236,7 @@ import { data1, data2 } from './components/FakeData'
   }
  
   
-  // const data = await fetchData(fetchDataOptions);
-  // console.log(pagination);
+
   return (
      
       <div className="container mx-auto py-10">
@@ -263,6 +249,11 @@ import { data1, data2 } from './components/FakeData'
           pageIndex:0,
           pageSize:80,
         }}
+         options={{
+          sort:true,
+          selection: false, // not work yet properly
+          pagination:true,
+         }}
          handlePagination={handlePagination}
          />
 

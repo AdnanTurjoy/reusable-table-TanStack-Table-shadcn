@@ -11,7 +11,7 @@ import {
 
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input"
-
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 import {
   Table,
   TableBody,
@@ -31,6 +31,7 @@ function DataTable({
   handleActions,
   paginations,
   handlePagination,
+  options,
 }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState(
@@ -104,13 +105,29 @@ function DataTable({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                  <TableHead key={header.id} >
+                    {
+                      options?.sort ?   <Button variant="ghost" className="flex" onClick={header.column.getToggleSortingHandler()}>
+                      {header.isPlaceholder
+                       ? null
+                       : flexRender(
+                           header.column.columnDef.header,
+                           header.getContext()
+                         )}
+                         <ArrowUpDown className="ml-2 h-4 w-4 mt-0.5" />
+                      </Button> :
+                      <>
+                        {header.isPlaceholder
+                       ? null
+                       : flexRender(
+                           header.column.columnDef.header,
+                           header.getContext()
+                         )}
+                      </>
+
+                    }
+                    
+           
                   </TableHead>
                 );
               })}
@@ -141,7 +158,10 @@ function DataTable({
         </TableBody>
       </Table>
     </div>
-    <DataTablePagination table={table}  />
+    {
+      options?.pagination ? <DataTablePagination table={table}  /> : ""
+    }
+    
     
 
 
