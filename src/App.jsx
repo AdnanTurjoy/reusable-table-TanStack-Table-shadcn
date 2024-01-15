@@ -137,6 +137,28 @@ import { data1, data2 } from './components/FakeData'
  function App() {
   const columns = useMemo(
     () => [
+        {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
       {
         header: 'Name',
         footer: props => props.column.id,
@@ -150,7 +172,19 @@ import { data1, data2 } from './components/FakeData'
             accessorFn: row => row.lastName,
             id: 'lastName',
             cell: info => info.getValue(),
-            header: () => <span>Last Name</span>,
+            header: ({ column }) => {
+              return (
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    column.toggleSorting(column.getIsSorted() === "asc");
+                  }}
+                >
+                  Last Name
+                  <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+              );
+            },
             footer: props => props.column.id,
           },
         ],

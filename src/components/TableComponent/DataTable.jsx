@@ -36,6 +36,7 @@ function DataTable({
   const [columnFilters, setColumnFilters] = useState(
     []
   )
+  const [filtering,setFiltering] = useState('')
   const [rowSelection, setRowSelection] = useState({})
 
   const [{ pageIndex, pageSize }, setPagination] = useState(paginations)
@@ -61,16 +62,18 @@ function DataTable({
     onSortingChange: setSorting,  
     manualPagination: true,
     onPaginationChange: setPagination,
-
+    onGlobalFilterChange: setFiltering,
+    enableRowSelection:true,
     state: {
       sorting,
       columnFilters,
       pagination,
-      rowSelection,
+      rowSelection: rowSelection,
+      globalFilter: filtering
     },
   });
 
-
+  console.log(table);
 
   getSelectedRow(Object.keys(rowSelection));
 
@@ -84,14 +87,12 @@ function DataTable({
         </div>
         }
     
-        {/* <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue()) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
+        <Input
+          placeholder="Search.."
+          value={filtering}
+          onChange={(event) =>setFiltering(event.target.value)}
           className="max-w-sm"
-        /> */}
+        />
         <DataTableViewOptions table={table} handleActions={handleActions} />
       </div>
     <div className="rounded-md border">
