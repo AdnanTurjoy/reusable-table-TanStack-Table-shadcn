@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button } from './components/ui/button'
 // import './App.css'
 import {
@@ -13,118 +13,119 @@ import '../app/globals.css'
 import { DataTable } from './components/TableComponent/DataTable.jsx'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 import { Checkbox } from "@/components/ui/checkbox"
+import { data1, data2 } from './components/FakeData'
 
-export const columns = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const payment = row.original
+// export const columns = [
+//   {
+//     id: "select",
+//     header: ({ table }) => (
+//       <Checkbox
+//         checked={
+//           table.getIsAllPageRowsSelected() ||
+//           (table.getIsSomePageRowsSelected() && "indeterminate")
+//         }
+//         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+//         aria-label="Select all"
+//       />
+//     ),
+//     cell: ({ row }) => (
+//       <Checkbox
+//         checked={row.getIsSelected()}
+//         onCheckedChange={(value) => row.toggleSelected(!!value)}
+//         aria-label="Select row"
+//       />
+//     ),
+//     enableSorting: false,
+//     enableHiding: false,
+//   },
+//   {
+//     accessorKey: "status",
+//     header: "Status",
+//   },
+//   {
+//     accessorKey: "email",
+//     header: ({ column }) => {
+//       return (
+//         <Button
+//           variant="ghost"
+//           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+//         >
+//           Email
+//           <ArrowUpDown className="ml-2 h-4 w-4" />
+//         </Button>
+//       )
+//     },
+//   },
+//   {
+//     accessorKey: "amount",
+//     header: ({ column }) => {
+//       return (
+//         <Button
+//           variant="ghost"
+//           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+//         >
+//           Amount
+//           <ArrowUpDown className="ml-2 h-4 w-4" />
+//         </Button>
+//       )
+//     },
+//   },
+//   {
+//     id: "actions",
+//     cell: ({ row }) => {
+//       const payment = row.original
  
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
-]
+//       return (
+//         <DropdownMenu>
+//           <DropdownMenuTrigger asChild>
+//             <Button variant="ghost" className="h-8 w-8 p-0">
+//               <span className="sr-only">Open menu</span>
+//               <MoreHorizontal className="h-4 w-4" />
+//             </Button>
+//           </DropdownMenuTrigger>
+//           <DropdownMenuContent align="end">
+//             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+//             <DropdownMenuItem
+//               onClick={() => navigator.clipboard.writeText(payment.id)}
+//             >
+//               Copy payment ID
+//             </DropdownMenuItem>
+//             <DropdownMenuSeparator />
+//             <DropdownMenuItem>View customer</DropdownMenuItem>
+//             <DropdownMenuItem>View payment details</DropdownMenuItem>
+//           </DropdownMenuContent>
+//         </DropdownMenu>
+//       )
+//     },
+//   },
+// ]
 
-export const data = [{
-  id: "728ed52f",
-  amount: 100,
-  status: "pending",
-  email: "m@example.com",
-},{
-  id: "728ed52f",
-  amount: 100,
-  status: "pending",
-  email: "a@example.com",
-},{
-  id: "728ed52f",
-  amount: 100,
-  status: "pending",
-  email: "p@example.com",
-},{
-  id: "728ed52f",
-  amount: 100,
-  status: "pending",
-  email: "m@example.com",
-},{
-  id: "728ed52f",
-  amount: 3,
-  status: "pending",
-  email: "q@example.com",
-},]
+// export const data = [{
+//   id: "728ed52f",
+//   amount: 100,
+//   status: "pending",
+//   email: "m@example.com",
+// },{
+//   id: "728ed52f",
+//   amount: 100,
+//   status: "pending",
+//   email: "a@example.com",
+// },{
+//   id: "728ed52f",
+//   amount: 100,
+//   status: "pending",
+//   email: "p@example.com",
+// },{
+//   id: "728ed52f",
+//   amount: 100,
+//   status: "pending",
+//   email: "m@example.com",
+// },{
+//   id: "728ed52f",
+//   amount: 3,
+//   status: "pending",
+//   email: "q@example.com",
+// },]
 
 // const actions = [
 //   {
@@ -133,7 +134,70 @@ export const data = [{
 //   }
 // ]
 
-function App() {
+ function App() {
+  const columns = useMemo(
+    () => [
+      {
+        header: 'Name',
+        footer: props => props.column.id,
+        columns: [
+          {
+            accessorKey: 'firstName',
+            cell: info => info.getValue(),
+            footer: props => props.column.id,
+          },
+          {
+            accessorFn: row => row.lastName,
+            id: 'lastName',
+            cell: info => info.getValue(),
+            header: () => <span>Last Name</span>,
+            footer: props => props.column.id,
+          },
+        ],
+      },
+      {
+        header: 'Info',
+        footer: props => props.column.id,
+        columns: [
+          {
+            accessorKey: 'age',
+            header: () => 'Age',
+            footer: props => props.column.id,
+          },
+          {
+            header: 'More Info',
+            columns: [
+              {
+                accessorKey: 'visits',
+                header: () => <span>Visits</span>,
+                footer: props => props.column.id,
+              },
+              {
+                accessorKey: 'status',
+                header: 'Status',
+                footer: props => props.column.id,
+              },
+              {
+                accessorKey: 'progress',
+                header: 'Profile Progress',
+                footer: props => props.column.id,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    []
+  )
+
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  })
+
+  const [data,setData] = useState(data1)
+
+
 
   const getSelectedRow = (rows) =>{
     console.log(rows);
@@ -143,11 +207,30 @@ function App() {
     console.log("Hittt");
   }
 
+  const handlePagination =(pag)=>{
+    if(pag.pageIndex===1){
+      setData(data2)
+    }
+   console.log(pag);
+  }
+ 
+  
+  // const data = await fetchData(fetchDataOptions);
+  // console.log(pagination);
   return (
      
       <div className="container mx-auto py-10">
         {/* <Button>Click me</Button> */}
-      <DataTable columns={columns} data={data} getSelectedRow={getSelectedRow} handleActions={handleLock} />
+      <DataTable 
+         columns={columns}
+         data={data} getSelectedRow={getSelectedRow} 
+         handleActions={handleLock} 
+         paginations={{
+          pageIndex:0,
+          pageSize:80,
+        }}
+         handlePagination={handlePagination}
+         />
 
     </div>
     

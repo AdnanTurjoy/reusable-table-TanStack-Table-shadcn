@@ -72,7 +72,7 @@ import {
 			  variant="outline"
 			  className="h-8 w-8 p-0"
 			  onClick={() => table.nextPage()}
-			  disabled={!table.getCanNextPage()}
+          disabled={!table.getCanNextPage()}
 			>
 			  <span className="sr-only">Go to next page</span>
 			  <ChevronRightIcon className="h-4 w-4" />

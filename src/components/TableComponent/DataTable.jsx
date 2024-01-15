@@ -22,13 +22,15 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "./DataTablePagination";
 import { DataTableViewOptions } from "./DataTableViewOptions";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 function DataTable({
   columns,
   data,
   getSelectedRow,
-  handleActions
+  handleActions,
+  paginations,
+  handlePagination,
 }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState(
@@ -36,9 +38,20 @@ function DataTable({
   )
   const [rowSelection, setRowSelection] = useState({})
 
+  const [{ pageIndex, pageSize }, setPagination] = useState(paginations)
+
+  const pagination = useMemo(
+    () => ({
+      pageIndex,
+      pageSize,
+    }),
+    [pageIndex, pageSize]
+  )
+  handlePagination(pagination)
   const table = useReactTable({
-    data,
+    data: data?.rows ,
     columns,
+    pageCount: data?.pageCount ?? -1,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -46,34 +59,39 @@ function DataTable({
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,  
+    manualPagination: true,
+    onPaginationChange: setPagination,
+
     state: {
       sorting,
       columnFilters,
-      // columnVisibility,
+      pagination,
       rowSelection,
     },
   });
+
+
 
   getSelectedRow(Object.keys(rowSelection));
 
   return (
     <div>
       <div className="flex items-center py-4">
-        {Object.keys(rowSelection).length >0 &&
+        {Object.keys(rowSelection)?.length >0 &&
             <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel()?.rows?.length} of{" "}
+            {table.getFilteredRowModel()?.rows?.length} row(s) selected.
         </div>
         }
     
-        <Input
+        {/* <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue()) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
-        />
+        /> */}
         <DataTableViewOptions table={table} handleActions={handleActions} />
       </div>
     <div className="rounded-md border">
@@ -114,7 +132,7 @@ function DataTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell colSpan={columns?.length} className="h-24 text-center">
                 No results.
               </TableCell>
             </TableRow>
