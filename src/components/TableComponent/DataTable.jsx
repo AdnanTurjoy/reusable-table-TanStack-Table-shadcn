@@ -108,21 +108,29 @@ function DataTable({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex justify-between">
+        <div>
         {Object.keys(rowSelection)?.length >0 &&
-            <div className="flex-1 text-sm text-muted-foreground">
+            <div className=" text-sm text-muted-foreground mt-5">
             {table.getFilteredSelectedRowModel()?.rows?.length} of{" "}
             {table.getFilteredRowModel()?.rows?.length} row(s) selected.
-        </div>
+           </div>
         }
-    
-        <Input
+        </div>
+         <div className="flex flex-row-reverse gap-3  py-4">
+        
+        
+        <DataTableViewOptions table={table} handleActions={handleActions} />
+        <div >
+         <Input
           placeholder="Search.."
           value={filtering}
           onChange={(event) =>setFiltering(event.target.value)}
           className="max-w-sm"
         />
-        <DataTableViewOptions table={table} handleActions={handleActions} />
+         </div>
+         </div>
+   
       </div>
     <div className="rounded-md border">
       

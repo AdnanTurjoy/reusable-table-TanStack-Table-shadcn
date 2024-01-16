@@ -12,25 +12,29 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
+import { Lock } from "lucide-react";
 
 function DataTableViewOptions({
   table,
   handleActions
 }) {
   return (
-    <>
-        <Button 
+    <>  
+    <div>
+    <Button 
         
-          size="sm"
-          className="ml-auto hidden h-7 lg:flex"
-          onClick={()=>handleActions()}
-        >
-          {/* <MixerHorizontalIcon className="mr-2 h-4 w-4" /> */}
-          
-          Lock
-        </Button> 
+        size="sm"
+        className="ml-auto hidden h-8 lg:flex"
+        onClick={()=>handleActions()}
+      >
+        <Lock className="mr-2 h-4 w-4" />
         
-        <DropdownMenu>
+        Lock
+      </Button>
+    </div>
+         
+        <div>
+             <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
@@ -64,6 +68,8 @@ function DataTableViewOptions({
           })}
       </DropdownMenuContent>
     </DropdownMenu>
+        </div>
+     
     </>
   
   );
