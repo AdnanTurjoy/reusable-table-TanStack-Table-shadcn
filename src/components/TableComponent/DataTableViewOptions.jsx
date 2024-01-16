@@ -30,7 +30,7 @@ function DataTableViewOptions({
              onClick={()=>item.triggerFunction(table.getSelectedRowModel()?.rows?.map((r)=>r.original))}
              disabled={table.getSelectedRowModel()?.rows?.map((r)=>r.original).length<1}
              >
-             {/* <Lock className="mr-2 h-4 w-4" /> */}
+           {item.icon}
              
              {item.name}
            </Button>

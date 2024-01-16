@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import '../app/globals.css'
 import { DataTable } from './components/TableComponent/DataTable.jsx'
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown, DownloadCloud, MoreHorizontal } from 'lucide-react'
 import { Checkbox } from "@/components/ui/checkbox"
 import { data1, data2 } from './components/FakeData'
-
+import { Lock } from "lucide-react";
+import { DownloadIcon } from '@radix-ui/react-icons'
 // export const columns = [
 //   {
 //     id: "select",
@@ -215,15 +216,18 @@ import { data1, data2 } from './components/FakeData'
         return [
             {
                 name: "Lock",
-                triggerFunction: renderUrl
+                triggerFunction: renderUrl,
+                icon: <Lock className="mr-2 h-4 w-4" />,
             },
             {
                 name: "Download Signature",
-                triggerFunction: downloadSignature
+                triggerFunction: downloadSignature,
+                icon: <DownloadIcon className="mr-2 h-4 w-4" />,
             },
             {
                 name: "Download Photo Id",
-                triggerFunction: downloadPhotoId
+                triggerFunction: downloadPhotoId,
+                icon: <DownloadCloud className="mr-2 h-4 w-4" />,
             }
         ]   
  };
