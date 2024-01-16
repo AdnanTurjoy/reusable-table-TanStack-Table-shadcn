@@ -40,7 +40,10 @@ function DataTable({
   const [filtering,setFiltering] = useState('')
   const [rowSelection, setRowSelection] = useState({})
 
-  const [{ pageIndex, pageSize }, setPagination] = useState(paginations)
+  const [{ pageIndex, pageSize }, setPagination] = useState(paginations || {
+       pageIndex:0,
+       pageSize:80,
+     })
 
   const pagination = useMemo(
     () => ({
@@ -50,7 +53,7 @@ function DataTable({
     [pageIndex, pageSize]
   )
   handlePagination(pagination)
-  const table = useReactTable({
+  const table = useReactTable(options.paginationType==="server" ? {
     data: data?.rows ,
     columns,
     pageCount: data?.pageCount ?? -1,
@@ -72,7 +75,31 @@ function DataTable({
       rowSelection: rowSelection,
       globalFilter: filtering
     },
-  });
+  }:  {
+    data: data?.rows ,
+    columns,
+    // pageCount: data?.pageCount ?? -1,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,  
+    // manualPagination: true,
+    // onPaginationChange: setPagination,
+    onGlobalFilterChange: setFiltering,
+    // enableRowSelection: row => row.original.age > 18,
+    state: {
+      sorting,
+      columnFilters,
+      // pagination,
+      rowSelection: rowSelection,
+      globalFilter: filtering
+    },
+  }
+  
+  );
 
 
 // console.log(table.getSelectedRowModel()?.rows?.map((r)=>r.original)) //get full client-side selected rows
@@ -106,7 +133,7 @@ function DataTable({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} >
+                  <TableHead key={header.id} className={`${options?.sort} ? 'pl-2' : 'pl-6'`}>
                     {
                       options?.sort ?   <Button variant="ghost" className="flex" onClick={header.column.getToggleSortingHandler()}>
                       {header.isPlaceholder
@@ -143,7 +170,7 @@ function DataTable({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className={`${options?.sort} ? 'pl-2' : 'pl-6'`}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

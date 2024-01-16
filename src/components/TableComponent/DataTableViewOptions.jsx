@@ -19,16 +19,16 @@ function DataTableViewOptions({
 }) {
   return (
     <>
-        <Button
-          variant="outline"
+        <Button 
+        
           size="sm"
-          className="ml-auto hidden h-8 lg:flex"
+          className="ml-auto hidden h-7 lg:flex"
           onClick={()=>handleActions()}
         >
           {/* <MixerHorizontalIcon className="mr-2 h-4 w-4" /> */}
           
           Lock
-        </Button>
+        </Button> 
         
         <DropdownMenu>
       <DropdownMenuTrigger asChild>
