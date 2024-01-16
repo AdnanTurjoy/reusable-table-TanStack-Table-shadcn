@@ -16,22 +16,28 @@ import { Lock } from "lucide-react";
 
 function DataTableViewOptions({
   table,
-  handleActions
+  tableButton
 }) {
   return (
     <>  
-    <div>
-    <Button 
-        
-        size="sm"
-        className="ml-auto hidden h-8 lg:flex"
-        onClick={()=>handleActions()}
-      >
-        <Lock className="mr-2 h-4 w-4" />
-        
-        Lock
-      </Button>
-    </div>
+    {
+      tableButton.map((item,id)=>{
+         return <div key={id}>
+          <Button 
+            
+             size="sm"
+             className="ml-auto hidden h-8 lg:flex"
+             onClick={()=>item.triggerFunction(table.getSelectedRowModel()?.rows?.map((r)=>r.original))}
+             disabled={table.getSelectedRowModel()?.rows?.map((r)=>r.original).length<1}
+             >
+             {/* <Lock className="mr-2 h-4 w-4" /> */}
+             
+             {item.name}
+           </Button>
+         </div>
+      })
+    }
+    
          
         <div>
              <DropdownMenu>

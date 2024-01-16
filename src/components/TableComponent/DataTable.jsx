@@ -27,11 +27,10 @@ import { useState, useMemo } from "react";
 function DataTable({
   columns,
   data,
-  getSelectedRow,
-  handleActions,
   paginations,
   handlePagination,
   options,
+  tableButton
 }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState(
@@ -104,7 +103,7 @@ function DataTable({
 
 // console.log(table.getSelectedRowModel()?.rows?.map((r)=>r.original)) //get full client-side selected rows
 
-  getSelectedRow(table.getSelectedRowModel()?.rows?.map((r)=>r.original));
+
 
   return (
     <div>
@@ -120,7 +119,7 @@ function DataTable({
          <div className="flex flex-row-reverse gap-3  py-4">
         
         
-        <DataTableViewOptions table={table} handleActions={handleActions} />
+        <DataTableViewOptions table={table}  tableButton={tableButton} />
         <div >
          <Input
           placeholder="Search.."

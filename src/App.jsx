@@ -203,15 +203,6 @@ import { data1, data2 } from './components/FakeData'
   const [data,setData] = useState(data1)
 
 
-
-  const getSelectedRow = (rows) =>{
-    console.log(rows);
-  }
-
-  const handleLock = () =>{
-    console.log("Hittt");
-  }
-
   const handlePagination =(pag)=>{
     if(pag.pageIndex===1){
       setData(data2)
@@ -219,7 +210,34 @@ import { data1, data2 } from './components/FakeData'
    console.log(pag);
   }
  
+  const renderTopLabelButton = () => {
   
+        return [
+            {
+                name: "Lock",
+                triggerFunction: renderUrl
+            },
+            {
+                name: "Download Signature",
+                triggerFunction: downloadSignature
+            },
+            {
+                name: "Download Photo Id",
+                triggerFunction: downloadPhotoId
+            }
+        ]   
+ };
+
+  function renderUrl(e){
+     console.log("eeeeeeeeeee",e);
+  }
+
+  function downloadSignature(){
+    
+  }
+  function downloadPhotoId(){
+    
+  }
 
   return (
      
@@ -227,8 +245,7 @@ import { data1, data2 } from './components/FakeData'
         {/* <Button>Click me</Button> */}
       <DataTable 
          columns={columns}
-         data={data} getSelectedRow={getSelectedRow} 
-         handleActions={handleLock} 
+         data={data} 
          paginations={{
           pageIndex:0,
           pageSize:3,
@@ -237,9 +254,10 @@ import { data1, data2 } from './components/FakeData'
           sort:false,
           selection: true, // not work yet properly
           pagination:true,
-          paginationType:"client"
+          paginationType:"server"
          }}
          handlePagination={handlePagination}
+         tableButton={renderTopLabelButton()}
          />
 
     </div>
